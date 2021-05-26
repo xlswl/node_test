@@ -3,8 +3,16 @@
 var express = require('express'); // 설치한 express module을 불러와서 변수(express)에 담습니다.
 var app = express(); //express를 실행하여 app object를 초기화 합니다.
 
-app.get('/', function(req, res) { // '/' 위치에 'get'요청을 받는 경우,
-  res.send('Hello World!'); // "Hello World!"를 보냅니다.
+app.set('view engine','ejs');
+app.set('views', './public/views');
+app.use(express.static(__dirname + '/public'));
+
+app.get('/hello', function(req,res){
+  res.render('hello', {name:req.query.nameQuery});
+});
+
+app.get('/hello/:nameParam', function(req,res){ // 3
+  res.render('hello', {name:req.params.nameParam});
 });
 
 var port = 4000; // 사용할 포트 번호를 port 변수에 넣습니다. 
